@@ -14,7 +14,7 @@ jobs:
       - name: Set up macOS
         uses: actions/setup-macos@v2
         with:
-        macos-version: 'latest'
+         macos-version: 'latest'
 
       - name: Install Xcode
         run: sudo xcode-select --install
