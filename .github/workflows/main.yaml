@@ -11,14 +11,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set up macOS
-        uses: juicyfx/setup-macos@v1
-        with:
-         macos-version: 'latest'
-
-      - name: Install Xcode
-        run: sudo xcode-select --install
-
       - name: Set up Java
         uses: actions/setup-java@v1
         with:
@@ -35,21 +27,12 @@ jobs:
       - name: Build IPA
         run: flutter build ios --release --no-codesign
 
-      - name: Create Release
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            build/ios/iphoneos/*.ipa
-          tag_name: v2.1.0
-          release_name: Release v2.1.0
-          body: |
-            This is an automated release created by GitHub Actions.
-
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/ios/iphoneos/*.ipa
-          asset_name: QRCode.ipa
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./build/ios/iphoneos/Runner.ipa
+          asset_name: Runner.ipa
           asset_content_type: application/octet-stream
