@@ -24,9 +24,6 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Build iOS
-        run: flutter build ios --no-codesign
-
       - name: Archive and Export iOS
         run: |
           cd ios
