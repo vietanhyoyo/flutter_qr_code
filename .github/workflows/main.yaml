@@ -11,6 +11,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Set up macOS
+        uses: actions/setup-macos@v2
+        with:
+        macos-version: 'latest'
+
+      - name: Install Xcode
+        run: sudo xcode-select --install
+
       - name: Set up Java
         uses: actions/setup-java@v1
         with:
