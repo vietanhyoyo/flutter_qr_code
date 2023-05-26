@@ -31,4 +31,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: iOS Artifact
-          path: build/Runner.ipa
+          artifacts: "build/Runner.ipa"
+          token: ${{ secrets.TOKEN }}
+          tag: v1.0.0
+          distribution: 'internal'
