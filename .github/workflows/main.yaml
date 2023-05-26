@@ -27,12 +27,22 @@ jobs:
       - name: Build IPA
         run: flutter build ios --release --no-codesign
 
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          tag_name: v2.1.0
+          release_name: Release v2.1.0
+          body: This is an automated release created by GitHub Actions.
+
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         with:
-          upload_url: ${{ github.event.release.upload_url }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./build/ios/iphoneos/Runner.ipa
           asset_name: Runner.ipa
           asset_content_type: application/octet-stream
