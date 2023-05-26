@@ -27,11 +27,15 @@ jobs:
       - name: Build iOS
         run: flutter build ios --no-codesign
 
+      - name: Archive and Export iOS
+        run: |
+          cd ios
+          xcodebuild archive -workspace Runner.xcworkspace -scheme Runner -archivePath "build/Runner.xcarchive"
+          xcodebuild -exportArchive -archivePath "build/Runner.xcarchive" -exportOptionsPlist "build/ExportOptions.plist" -exportPath "build"
+          mv "build/Runner.ipa" "../build/Runner.ipa"
+
       - name: Upload iOS Artifact
         uses: actions/upload-artifact@v2
         with:
           name: iOS Artifact
-          artifacts: "build/Runner.ipa"
-          token: ${{ secrets.TOKEN }}
-          tag: v1.0.0
-          distribution: 'internal'
+          path: build/Runner.ipa
