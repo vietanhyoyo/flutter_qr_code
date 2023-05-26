@@ -24,11 +24,24 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Build iOS app
+      - name: Build IPA
         run: flutter build ios --release --no-codesign
 
-      - name: Upload iOS Artifact
-        uses: actions/upload-artifact@v2
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
         with:
-          name: iOS Artifact
-          path: build/ios/iphoneos/
+          files: |
+            build/ios/iphoneos/*.ipa
+          tag_name: v2.1.0
+          release_name: Release v2.1.0
+          body: |
+            This is an automated release created by GitHub Actions.
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/ios/iphoneos/*.ipa
+          asset_name: QRCode.ipa
+          asset_content_type: application/octet-stream
