@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up macOS
-        uses: actions/setup-macos@v2
+        uses: juicyfx/setup-macos@v1
         with:
          macos-version: 'latest'
 
